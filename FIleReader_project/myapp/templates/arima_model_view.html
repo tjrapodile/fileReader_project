@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARIMA Model View</title>
+</head>
+<body>
+    <h2>ARIMA Model View</h2>
+
+    <script src="https://cdn.plotly.com/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pandas@1.0.5/pandas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/statsmodels@0.12.0/statsmodels.min.js"></script>
+    <script>
+        // Retrieve CSV data from the query parameter
+        var csvDataParam = new URLSearchParams(window.location.search).get('csvData');
+        var csvData = JSON.parse(decodeURIComponent(csvDataParam));
+
+        // Convert CSV data to a Pandas DataFrame
+        var df = pandas.DataFrame(csvData);
+
+        // Assuming the CSV data has a column named 'timestamp' and 'value'
+        var dateColumnName = 'data';
+        var meantempColumnName = 'meantemp';
+        var humidityColumnName = 'humidity';
+        var wind_speedColumnName = 'wind_speed';
+        var meanpressureColumnName = 'meanpressure';
+
+        df[dateColumnName] = pandas.to_datetime(df[dateColumnName]);
+        df.set_index(dateColumnName, { inplace: true });
+
+        // Create an ARIMA model using the statsmodels library
+        var order = [5, 1, 5];  // Order of the ARIMA model (p, d, q)
+        var model = new statsmodels.tsa.ARIMA(df[meantempColumnName], { order: order });
+
+        // Fit the model
+        var result = model.fit();
+
+        // Display the summary (you can customize this part based on your needs)
+        console.log(result.summary());
+
+        // Plot the original data and predicted values using Plotly
+        var originalTrace = {
+            x: df.index,
+            y: df[meantempColumnName],  // Corrected variable name
+            type: 'scatter',
+            name: 'Original Data'
+        };
+
+        var predictedTrace = {
+            x: df.index,
+            y: result.predict(),
+            type: 'scatter',
+            name: 'Predicted Values'
+        };
+
+        var layout = {
+            title: 'ARIMA Model Prediction',
+            xaxis: { title: 'Date' },
+            yaxis: { title: 'MeanTemp' }
+        };
+
+        Plotly.newPlot('plot', [originalTrace, predictedTrace], layout);
+    </script>
+
+    <!-- Add a div to display the plot -->
+    <div id="plot"></div>
+</body>
+</html>
