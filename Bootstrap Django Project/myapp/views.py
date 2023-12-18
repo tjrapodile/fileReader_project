@@ -33,8 +33,11 @@ def upload_success(request):
     return render(request, 'upload_success.html')
 
 def arima_models_view(request):
-    csv_data = request.GET.get('csvData')
     return render(request, 'arima_models_view.html')
+
+def analysis(request):
+    return render(request, 'analysis.html')
+
 
 
 

@@ -8,11 +8,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Our Project</title>
+    <title>Upload File Form</title>
     <link href ="{% static 'css/styles.css' %}" rel = "stylesheet"/>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link href="DataTables/datatables.min.css" rel="stylesheet">
-    
+    <style>
+        
+        .container {
+          background-color: #ffffff;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          padding: 20px;
+          margin-top: 50px;
+        }
+        h2 {
+          color: #007bff;
+        }
+        label {
+          font-weight: bold;
+        }
+        .btn-primary {
+          background-color: #007bff;
+          border-color: #007bff;
+        }
+        .btn-primary:hover {
+          background-color: #0056b3;
+          border-color: #0056b3;
+        }
+      </style>
 </head>
 <body>
     <body class="sb-nav-fixed">
@@ -59,11 +82,11 @@
                             <a class="nav-link" href="upload_success.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 View Table Data
-                            <a class="nav-link" href="table.html">
+                            <a class="nav-link" href="arima_models_view.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                View Arima Model
+                                Run Arima Model
                             </a>
-                            <a class="nav-link" href="model.html">
+                            <a class="nav-link" href="analysis.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Analysis Of Model
                             </a>
@@ -81,14 +104,40 @@
                         <div class="container-fluid px-4">
                             <h1 class="mt-4">Dashboard</h1>
                             <ol class="breadcrumb mb-4">
-                                <li class="breadcrumb-item active">Home Page</li>
+                                <li class="breadcrumb-item active">Enter Details And Upload File</li>
                             </ol>
-                            <h2>Upload CSV File</h2>
-                            <form method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                {{ form.as_p }}
-                                <button type="submit">Upload</button>
+                                <div class="container">
+                                    <h2 class="mb-4">CSV File Upload Form</h2>
+                                    
+                                    <!-- Form starts here -->
+                                    <form action="upload_success.html/" method="post" enctype="multipart/form-data">
+                                      
+                                      <!-- CSV File Information -->
+                                      <div class="mb-3">
+                                        <label for="fileName" class="form-label">File Name:</label>
+                                        <input type="text" class="form-control" id="fileName" name="fileName" required>
+                                      </div>
+                                      
+                                      <div class="mb-3">
+                                        <label for="fileDescription" class="form-label">File Description:</label>
+                                        <textarea class="form-control" id="fileDescription" name="fileDescription" rows="3" required></textarea>
+                                      </div>
+                                      
+                                      <!-- File Upload -->
+                                      <div class="mb-3">
+                                        <label for="fileUpload" class="form-label">Choose CSV File:</label>
+                                      
+                                      <!-- Submit Button -->
+                                      {% csrf_token %}
+                                      {{ form.as_p }}
+                                      <button type="submit" class="btn btn-primary">Upload CSV File</button>
+                                    
+                                    </form>
+                                    <!-- Form ends here -->
+                                  
+                                  </div>
                             </form>
+                            
                         </div>
                     </main>
                         
