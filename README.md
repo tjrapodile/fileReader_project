@@ -1,2 +1,2 @@
 # fileReader_project
-updated project, also tried doing something with the arima model, but the page still doesnt load.
+Django web application that receives .csv or Excel files/spreadsheets that contain data, and stores them locally. Use of bootstrap template for frontend
